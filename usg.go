@@ -87,7 +87,7 @@ func (u *promUnifi) exportUSG(r report, d *unifi.USG) {
 	}
 
 	if d.SystemStats.Temps != nil {
-		for k, v := range d.SystemStats.Temps {
+		for k, v := range *d.SystemStats.Temps {
 		    temp, _ := strconv.ParseInt(strings.Split(v, " ")[0], 10, 64)
 		    k = strings.ReplaceAll(strings.ReplaceAll(strings.ReplaceAll(k, " ", "_"), ")", ""), "(", "")
 
