@@ -86,12 +86,14 @@ func (u *promUnifi) exportUSG(r report, d *unifi.USG) {
 		r.send([]*metric{{u.Device.Temperature, gauge, t.Value, append(labels, t.Name, t.Type)}})
 	}
 
-	for k, v := range d.SystemStats.Temps {
-		temp, _ := strconv.ParseInt(strings.Split(v, " ")[0], 10, 64)
-		k = strings.ReplaceAll(strings.ReplaceAll(strings.ReplaceAll(k, " ", "_"), ")", ""), "(", "")
+	if d.SystemStats.Temps != nil {
+		for k, v := range d.SystemStats.Temps {
+		    temp, _ := strconv.ParseInt(strings.Split(v, " ")[0], 10, 64)
+		    k = strings.ReplaceAll(strings.ReplaceAll(strings.ReplaceAll(k, " ", "_"), ")", ""), "(", "")
 
-		if k = strings.ToLower(k); temp != 0 && k != "" {
+		    if k = strings.ToLower(k); temp != 0 && k != "" {
 			r.send([]*metric{{u.Device.Temperature, gauge, temp, append(labels, k, k)}})
+		    }
 		}
 	}
 
